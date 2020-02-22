@@ -44,9 +44,10 @@ class Msg {
   constructor() {
     this.table = Bmob.Query('msg')
   }
-  async save(msg) {
+  async save(msg,stuNo) {
     try {
       this.table.set("msg", msg)
+      this.table.set("stuNo", stuNo)
       await this.table.save();
     } catch (error) {
       console.log("ApiCount => ", error);

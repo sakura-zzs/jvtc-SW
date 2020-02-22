@@ -11,8 +11,8 @@ async function fun(ctx, next) {
 
   try {
 
-    const { msg } = JSON.parse(data);
-    ctx.dbx.msg.save(msg);
+    const { msg,stuNo } = JSON.parse(data);
+    ctx.dbx.msg.save(msg,stuNo);
     ctx.body = {
       code: 0, message: "完成"
     };
