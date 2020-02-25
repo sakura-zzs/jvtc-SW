@@ -3,7 +3,7 @@ const { jvtc_post } = require('../utils/jvtc_request');
 const { parsCookies } = require('../utils/jvtc_pars');
 const { login } = require('../apis/api');
 
-module.exports =async function (cookies, args) {
+module.exports = async function (cookies, args) {
   return new Promise((resolve, reject) => {
     jvtc_post(login, { cookies, args }, (err, res) => {
 
@@ -18,9 +18,13 @@ module.exports =async function (cookies, args) {
             console.log('login=> 重定向');
           }
         }
-        // console.log(res.text);
-        
+        // <script>alert('用户名或密码错误！');</script>
         const $ = cheerio.load(res.text);
+
+        if ((res.text || "").includes(`<script>alert('用户名或密码错误！');</script>`)) {
+          throw '用户名或密码错误！';
+        }
+
         const html = new String($('script').html())
         if (html) {
           const rex = /alert\('(.*?)'\);/;

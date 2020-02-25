@@ -27,6 +27,7 @@ function parsCookies(headers) {
 
   let cookies = "";
   let endC = {};
+  
   if (!headers['set-cookie']) {
     throw new Error("学工网处理出现问题，请重试！");
   }
