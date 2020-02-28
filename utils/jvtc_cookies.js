@@ -16,6 +16,8 @@ module.exports = async function (cookies, args) {
         if (!res) {
           if (err.status > 300 && err.status < 400) {
             console.log('login=> 重定向');
+          } else {
+            throw '登陆失败';
           }
         }
         // <script>alert('用户名或密码错误！');</script>
