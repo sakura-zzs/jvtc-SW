@@ -12,6 +12,9 @@ async function jvtc_fun() {
         //   throw err;
         // }
         if(!res){
+          if(err && err.code == 'ECONNABORTED'){
+            throw "学校服务器访问超时，重试几次无效请放弃";
+          }
           throw err;
         }
         const { o } = this;

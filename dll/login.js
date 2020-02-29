@@ -11,7 +11,12 @@ async function jvtc_fun({ loginName, loginPwd }) {
 
   const [e] = await this.init();
 
-  if (e) return ["初始化错误，重试几次后无反应请联系相关人员", -1];
+  if (e) {
+    if (typeof e === 'string') {
+      return [e, -1];
+    }
+    return ["初始化错误，重试几次后无反应请联系相关人员", -1];
+  }
 
   return new Promise(async (resolve, reject) => {
 
