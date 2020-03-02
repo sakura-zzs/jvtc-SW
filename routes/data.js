@@ -1,30 +1,28 @@
+const _default = {
+  toDayApiNum: -1,
+  toMonthApisNum: -1,
+  toAllUserNum: -1,
+  toDayNewUserNum: -1,
+  time: -1,
+};
+
 async function fun(ctx, next) {
   // ctx.body = await ctx.dbx.msg.get();
-  let toDayApiNum, toMonthApisNum, toAllUserNum, toDayNewUserNum;
-
-  try {
-    toDayApiNum = await ctx.dbx.apiCount.getDataByToday();
-  } catch (error) {
-    toDayApiNum = -1;
+  let { toDayApiNum, toMonthApisNum, toAllUserNum, toDayNewUserNum, time } = _default;
+  if (Date.now() - time > 3600000) {
+    try {
+      toDayApiNum = await ctx.dbx.apiCount.getDataByToday();
+      _default.toDayApiNum = toDayApiNum;
+      toMonthApisNum = await ctx.dbx.apiCount.getApiCountByMonth();
+      _default.toMonthApisNum = toMonthApisNum;
+      toAllUserNum = await ctx.dbx.student.getAllUserList();
+      _default.toAllUserNum = toAllUserNum;
+      toDayNewUserNum = await ctx.dbx.student.getNewUserList();
+      _default.toDayNewUserNum = toDayNewUserNum;
+    } catch (error) {
+    }
   }
-
-  try {
-    toMonthApisNum = await ctx.dbx.apiCount.getApiCountByMonth();
-  } catch (error) {
-    toMonthApisNum = -1;
-  }
-
-  try {
-    toAllUserNum = await ctx.dbx.student.getAllUserList();
-  } catch (error) {
-    toAllUserNum = -1;
-  }
-
-  try {
-    toDayNewUserNum = await ctx.dbx.student.getNewUserList();
-  } catch (error) {
-    toDayNewUserNum = -1;
-  }
+  
   ctx.body = {
     code: 0,
     data: {
