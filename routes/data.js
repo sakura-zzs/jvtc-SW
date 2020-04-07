@@ -22,7 +22,7 @@ async function fun(ctx, next) {
     } catch (error) {
     }
   }
-  
+
   ctx.body = {
     code: 0,
     data: {
@@ -35,7 +35,14 @@ async function fun(ctx, next) {
   };
   await next();
 }
+async function announcement(ctx, next) {
 
+  const announcement = (await ctx.store.getText('announcement'));
+  ctx.body = { code: 0, message: announcement };
+
+  await next();
+}
 module.exports = {
   'GET /data': fun,
+  'GET /announcement': announcement,
 }

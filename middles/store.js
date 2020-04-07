@@ -11,6 +11,10 @@ class RedisStore {
             db: 0
         });
     }
+    async getText(userid) {
+        let data = await this.redis.get(`${userid}`);
+        return data;
+    }
 
     async get(userid) {
         let data = await this.redis.get(`${userid}`);
@@ -19,8 +23,8 @@ class RedisStore {
 
     async set(userid, value, { maxAge = 7200000 } = {}) {
         try {
-            console.log('maxAge',maxAge);
-            
+            console.log('maxAge', maxAge);
+
             /**
                 EX seconds - 设置指定的过期时间，以秒为单位。
                 PX 毫秒 - 设置指定的过期时间，以毫秒为单位。
