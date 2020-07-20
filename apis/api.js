@@ -1,6 +1,6 @@
 const baseUrl = "http://xz.jvtc.jx.cn/JVTC_XG/";
 
-const login = baseUrl + "UserLogin.html";
+const login = baseUrl + "UserLogin.aspx";
 const init = baseUrl + "UserLogin.html";
 const img_code = baseUrl + "default3.html";
 const userinfo = baseUrl + "SystemForm/Class/MyStudent.aspx";
@@ -9,6 +9,8 @@ const AppAction = baseUrl + "SystemForm/StuActive/AppAction.aspx?Id=";
 const WorkInfo = baseUrl + "SystemForm/WorkInfo.aspx";
 const MyActionGetNum = baseUrl + "SystemForm/StuActive/MyActionGetNum.aspx";
 const StuEnlightenRoomScore = baseUrl + "SystemForm/Gardens/StuEnlightenRoomScore.aspx";
+const StuJudgeScore = baseUrl + "SystemForm/StudentJudge/StuJudgeScore.aspx";
+
 // 老师相关
 const TeacherInfo = baseUrl + "SystemForm/Personal/MyPerson.aspx";
 const Navigation = baseUrl + "SystemForm/Navigation.aspx";
@@ -31,6 +33,7 @@ module.exports = {
   StuEnlightenRoomScore,
   img_code,
   Navigation,
+  StuJudgeScore,
   // 老师相关
   TeacherInfo,
   TeacherReSetpass,

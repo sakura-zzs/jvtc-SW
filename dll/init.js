@@ -8,6 +8,7 @@ async function jvtc_fun() {
   return new Promise((resolve, reject) => {
     jvtc_get(init, { cookies: "", args: "" }, (err, res) => {
       try {
+        console.log('err',err);
         // if(err){
         //   throw err;
         // }

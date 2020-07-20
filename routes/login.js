@@ -2,7 +2,6 @@ const { parsePostData } = require('../utils/jvtc_pars');
 const blackUser = require('../middles/black_user');
 
 async function fun(ctx, next) {
-
   const [errr, data] = await parsePostData(ctx);
 
   if (errr) {

@@ -10,8 +10,10 @@ function parsArgs(html) {
   const __VIEWSTATEENCRYPTED = $('input[name=__VIEWSTATEENCRYPTED]').val()
   const __EVENTTARGET = $('input[name=__EVENTTARGET]').val()
   const __EVENTARGUMENT = $('input[name=__EVENTARGUMENT]').val()
+  const pubKey = $('input[name=pubKey]').val()
 
   args.__VIEWSTATE = __VIEWSTATE || '';
+  args.pubKey = pubKey || '';
   args.__VIEWSTATEGENERATOR = __VIEWSTATEGENERATOR || '';
   args.__EVENTVALIDATION = __EVENTVALIDATION || '';
   args.__VIEWSTATEENCRYPTED = __VIEWSTATEENCRYPTED || '';
@@ -27,7 +29,7 @@ function parsCookies(headers) {
 
   let cookies = "";
   let endC = {};
-  
+
   if (!headers['set-cookie']) {
     throw new Error("学工网处理出现问题，请重试！");
   }
@@ -554,6 +556,15 @@ function parseTeacherFDYDisLeave(html) {
 
 }
 
+const parseOptions = (html) => {
+  const $ = cheerio.load(html);
+  const optionMap = {};
+  $('select option').each((index, el) => {
+    optionMap[$(el).val()] = $(el).text();
+  });
+  return optionMap;
+}
+
 
 
 module.exports = {
@@ -565,6 +576,7 @@ module.exports = {
   parsMyActionGetNum,
   parsStuEnlightenRoomScore,
   parsePostData,
+  parseOptions,
   // 老师相关
   parseTeacherInfo,
   parseTeacherReSetpass,

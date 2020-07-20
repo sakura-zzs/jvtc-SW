@@ -50,7 +50,7 @@ async function jvtc_fun({ loginName, loginPwd }) {
 
     // 登陆并获取之后的cookie
     const [err, data] = await jvtc_cookies(cookies, args);
-
+    console.log('err, data',err, data);
     if (err) {
       return reject(err);
     }

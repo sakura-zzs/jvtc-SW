@@ -6,7 +6,7 @@ const { login } = require('../apis/api');
 module.exports = async function (cookies, args) {
   return new Promise((resolve, reject) => {
     jvtc_post(login, { cookies, args }, (err, res) => {
-
+      // console.log('err, res',err, res);
       try {
         // err 可能只是 status code 小错误 只要cookie完成就不用担心
         // if(err){
@@ -14,12 +14,14 @@ module.exports = async function (cookies, args) {
         // }
         // 对 重定向处理
         if (!res) {
+          console.log('---err');
           if (err.status > 300 && err.status < 400) {
             console.log('login=> 重定向');
           } else {
             throw '登陆失败';
           }
         }
+
         // <script>alert('用户名或密码错误！');</script>
         const $ = cheerio.load(res.text);
 
