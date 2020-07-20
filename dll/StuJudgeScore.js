@@ -1,35 +1,57 @@
 const cheerio = require('cheerio');
 const { jvtc_get, jvtc_post } = require('../utils/jvtc_request');
-const { parsArgs, parsePostData,parseOptions } = require('../utils/jvtc_pars');
+const { parsArgs, parseStuJudegScore, parseOptions } = require('../utils/jvtc_pars');
 const { StuJudgeScore } = require('../apis/api');
+const { json2form } = require('../utils/utils');
 
-async function jvtc_fun() {
+async function jvtc_fun (TermTime) {
 
   return new Promise((resolve, reject) => {
 
     const { o } = this;
-    const args = {
-      // ...this.o.args,
-      __EVENTTARGET: 'GridView1',
-      __EVENTARGUMENT: 'Page$3',
-      __VIEWSTATEENCRYPTED: ''
-    };
-    jvtc_post(StuJudgeScore, { cookies: o.cookies, args }, (err, res) => {
+
+    // console.log('args',args);
+    jvtc_get(StuJudgeScore, { cookies: o.cookies }, (err, res) => {
       try {
         if (!res) {
           throw err;
         }
-        const { text } = res;
-        o.args = parsArgs(text);
+        o.args = parsArgs(res.text);
+        const args = {
+          ...this.o.args,
+          TermTime,
+          BtnSearch: "查询"
+          // __EVENTTARGET: 'GridView1',
+          // __EVENTARGUMENT: 'Page$3',
+          // __VIEWSTATEENCRYPTED: ''
+        };
+        jvtc_post(StuJudgeScore, { cookies: o.cookies, args: json2form(args) }, (err, res) => {
+          try {
+            if (!res) {
+              throw err;
+            } 
+            const { text } = res;
+            o.args = parsArgs(text);
 
-        const data = parsePostData(text) || [];
-        console.log('data', data);
-        resolve([null, 0, data.reverse()]);
+            // console.log('text', text);
+
+            const data = parseStuJudegScore(text) || {
+              list: [],
+              options: []
+            };
+
+            console.log('data', data);
+            resolve([null, 0, data]);
+
+          } catch (error) {
+            reject(error);
+          }
+        });
 
       } catch (error) {
         reject(error);
       }
-    });
+    })
   }).catch((error) => {
     return [error, null, null];
   })

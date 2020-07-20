@@ -39,6 +39,7 @@ async function fun(ctx, next) {
       throw new Error(errmsg);
       // Redis 有问题 会导致 ctx.body 无法 起到作用 (暂时不知道怎么解决)
     }
+    console.log(111);
     // 获取登陆类型
     const [, type] = await ctx.jvtc.isType();
 

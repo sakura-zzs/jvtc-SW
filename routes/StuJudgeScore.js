@@ -1,12 +1,15 @@
-async function fun(ctx, next) {
+const { parsePostData } = require("../utils/jvtc_pars");
 
+async function fun (ctx, next) {
+
+  const { TermTime } = ctx.query;
   try {
-    
-    const [error, code, data] = await ctx.jvtc.StuJudgeScore();
+
+    const [error, code, data] = await ctx.jvtc.StuJudgeScore(TermTime);
 
     if (!error && code === 0) {
       ctx.body = { code, message: error, data }
-      
+
       return;
     }
 

@@ -1,7 +1,7 @@
 
 const cheerio = require('cheerio');
 
-function parsArgs(html) {
+function parsArgs (html) {
   const args = {};
   const $ = cheerio.load(html);
   const __VIEWSTATE = $('input[name=__VIEWSTATE]').val()
@@ -24,7 +24,7 @@ function parsArgs(html) {
   return args;
 }
 
-function parsCookies(headers) {
+function parsCookies (headers) {
   // console.log(headers);
 
   let cookies = "";
@@ -43,7 +43,7 @@ function parsCookies(headers) {
   return cookies;
 }
 
-function parsUserinfo(html) {
+function parsUserinfo (html) {
 
   const $ = cheerio.load(html), userinfo = {
     basicsinfo: {
@@ -99,7 +99,7 @@ function parsUserinfo(html) {
 }
 
 
-function parsStuActive(html) {
+function parsStuActive (html) {
 
   const $ = cheerio.load(html), data = [
 
@@ -167,7 +167,7 @@ function parsStuActive(html) {
   return data;
 }
 
-function parsWordInfo(html) {
+function parsWordInfo (html) {
 
   const $ = cheerio.load(html), data = {
     absence: null,
@@ -214,7 +214,7 @@ function parsWordInfo(html) {
   return data;
 }
 
-function parsMyActionGetNum(html) {
+function parsMyActionGetNum (html) {
 
   const $ = cheerio.load(html), data = {
     CountA1: null,
@@ -243,7 +243,7 @@ function parsMyActionGetNum(html) {
   return data;
 }
 
-function parsStuEnlightenRoomScore(html) {
+function parsStuEnlightenRoomScore (html) {
 
   const $ = cheerio.load(html), data = [
 
@@ -293,7 +293,7 @@ function parsStuEnlightenRoomScore(html) {
   return data;
 }
 
-function parsePostData(ctx) {
+function parsePostData (ctx) {
 
   return new Promise((resolve, reject) => {
     try {
@@ -312,11 +312,29 @@ function parsePostData(ctx) {
   })
 }
 
+function parseStuJudegScore (html) {
+  const $ = cheerio.load(html);
+  // console.log();
+  const list = [], options = [];
+  $('#GridView1 tr').last().find('td').each((index, el) => {
+    list.push($(el).text());
+  });
+  $('#TermTime option').each((index, el) => {
+    options.push($(el).val());
+  });
+  // const list = [...($('.trOdd').last().find('td') || [])].map(el => $(el).text());
+  // const options = [...$('#TermTime option')].map(el => $(el).text());
+  return {
+    list,
+    options
+  }
+}
+
 
 /**
  * 解析（节假）表格专用
  */
-function parseTeacherArgs({ html, keys = [], additionalCB, fromIndex = 0, optionsKeys = [] }) {
+function parseTeacherArgs ({ html, keys = [], additionalCB, fromIndex = 0, optionsKeys = [] }) {
 
   const $ = cheerio.load(html);
   const optionsKey = optionsKeys;
@@ -368,7 +386,7 @@ function parseTeacherArgs({ html, keys = [], additionalCB, fromIndex = 0, option
 
 // 老师相关
 
-function parseTeacherInfo(html) {
+function parseTeacherInfo (html) {
 
   const $ = cheerio.load(html), userinfo = {
     basicsinfo: {
@@ -396,7 +414,7 @@ function parseTeacherInfo(html) {
   return userinfo;
 }
 
-function parseTeacherReSetpass(html) {
+function parseTeacherReSetpass (html) {
 
   const rex = /<script>alert\(\'学生(.*?)密码重置成功,请牢记！\'\)<\/script>/;
   const rexErr = /<script>alert\(\'(.*?)\'\)<\/script>/;
@@ -406,7 +424,7 @@ function parseTeacherReSetpass(html) {
   };
 }
 
-function parseTeacherFDYAllLeaveExam(html) {
+function parseTeacherFDYAllLeaveExam (html) {
   const optionsKeys = ['TermNo', 'ClassNo', 'Status'];
   const keys = [
     'stu_id',
@@ -419,7 +437,7 @@ function parseTeacherFDYAllLeaveExam(html) {
     optionsKeys,
     html,
     keys,
-    additionalCB(tds) {
+    additionalCB (tds) {
       return {
         key: 'id',
         value: (tds.eq(0).children('a').eq(0).attr('href').match(/Id=([0-9]+)/)[1])
@@ -431,7 +449,7 @@ function parseTeacherFDYAllLeaveExam(html) {
 
 }
 
-function parsFDYAllLeaveExam_EditForm(html) {
+function parsFDYAllLeaveExam_EditForm (html) {
   const $ = cheerio.load(html);
   const postData = {};
   // 审批 获取 post数据
@@ -449,7 +467,7 @@ function parsFDYAllLeaveExam_EditForm(html) {
   return postData;
 }
 
-function parseTeacherFDYAllLeaveExamStat(html) {
+function parseTeacherFDYAllLeaveExamStat (html) {
   const rexErr = /<script>alert\('操作成功!'\);<\/script>/;
   try {
     if (rexErr.test(html)) {
@@ -464,7 +482,7 @@ function parseTeacherFDYAllLeaveExamStat(html) {
 }
 
 
-function parseTeacherFDYLeaveExam(html) {
+function parseTeacherFDYLeaveExam (html) {
   const rexErr = /<script>alert\('操作成功(.*?)'\);<\/script>/;
   if (rexErr.test(html)) {
     return {
@@ -483,7 +501,7 @@ function parseTeacherFDYLeaveExam(html) {
     html,
     keys,
     fromIndex: 1,
-    additionalCB(tds) {
+    additionalCB (tds) {
       return {
         key: 'id',
         value: (tds.eq(0).children('input[name*=GridView]').attr('name'))
@@ -494,7 +512,7 @@ function parseTeacherFDYLeaveExam(html) {
 }
 
 
-function parseTeacherFDYDisAllLeave(html) {
+function parseTeacherFDYDisAllLeave (html) {
   const rexErr = /<script>alert\('操作成功！'\);<\/script>/;
   if (rexErr.test(html)) {
     return {
@@ -513,7 +531,7 @@ function parseTeacherFDYDisAllLeave(html) {
     html,
     keys,
     fromIndex: 2,
-    additionalCB(tds) {
+    additionalCB (tds) {
       return {
         key: 'id',
         value: (tds.eq(0).children('input[name*=GridView]').attr('name'))
@@ -525,7 +543,7 @@ function parseTeacherFDYDisAllLeave(html) {
 }
 
 
-function parseTeacherFDYDisLeave(html) {
+function parseTeacherFDYDisLeave (html) {
   const rexErr = /<script>alert\('操作成功！'\);<\/script>/;
   if (rexErr.test(html)) {
     return {
@@ -544,7 +562,7 @@ function parseTeacherFDYDisLeave(html) {
     html,
     keys,
     fromIndex: 2,
-    additionalCB(tds) {
+    additionalCB (tds) {
       return {
         key: 'id',
         value: (tds.eq(0).children('input[name*=GridView]').attr('name'))
@@ -575,6 +593,7 @@ module.exports = {
   parsWordInfo,
   parsMyActionGetNum,
   parsStuEnlightenRoomScore,
+  parseStuJudegScore,
   parsePostData,
   parseOptions,
   // 老师相关
