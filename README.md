@@ -1,8 +1,18 @@
 # 学工平台API接口
 
+![https://img.shields.io/github/repo-size/jvtc/jvtc-SW](https://img.shields.io/github/repo-size/jvtc/jvtc-SW)
+![https://img.shields.io/github/issues/jvtc/jvtc-SW](https://img.shields.io/github/issues/jvtc/jvtc-SW)
+![https://img.shields.io/github/license/jvtc/jvtc-SW](https://img.shields.io/github/license/jvtc/jvtc-SW)
+![https://img.shields.io/github/stars/jvtc/jvtc-SW](https://img.shields.io/github/stars/jvtc/jvtc-SW)
+![https://img.shields.io/github/package-json/v/jvtc/jvtc-SW](https://img.shields.io/github/package-json/v/jvtc/jvtc-SW)
+
 ## 线上API地址
 
 [http://api.ncgame.cc/jvtc/*](http://api.ncgame.cc/jvtc/*)
+
+## 文档
+
+> `./jvtc.postman_collection.json` 文件 导入到 postman 即可
 
 ### `更新记录`
 > 2019-04-23     
@@ -14,9 +24,12 @@
 > 2019-10-12  
 >   准备开始接入老师端  
 > 2019-10-18  
->   完成老师端请假销假 加入黑名单/登陆限制等手段
+>   完成老师端请假销假 加入黑名单/登陆限制等手段  
+> 2020-07-20   
+>   跟随教务系统登录增加AES加密
 
 ## 已经实现WEBAPI接口 列表
+> 详情请看 ./jvtc.postman_collection.json
 
 ```http
 

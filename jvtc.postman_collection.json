@@ -1,0 +1,438 @@
+{
+	"info": {
+		"_postman_id": "bb268fde-3e10-4dd8-b17f-00cef05406ec",
+		"name": "jvtc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "目录",
+			"item": []
+		},
+		{
+			"name": "user",
+			"item": []
+		},
+		{
+			"name": "teacher",
+			"item": [
+				{
+					"name": "TeacherInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{url}}/teacher_info"
+					},
+					"response": []
+				},
+				{
+					"name": "TeacherReSetpass",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/TeacherReSetpass?StudentNo=172081777",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"TeacherReSetpass"
+							],
+							"query": [
+								{
+									"key": "StudentNo",
+									"value": "172081777"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "日常请假列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"TermNo\": \"2019-2020-1\",\n  \"ClassNo\": \"630601011701\",\n  \"StudentNo\": \"\",\n  \"StudentName\": \"\",\n  \"Status\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/FDYAllLeaveExam"
+					},
+					"response": []
+				},
+				{
+					"name": "日常请假审批/同意和拒绝",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/FDYAllLeaveExam_Edit?id=109240&type=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"FDYAllLeaveExam_Edit"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "109240"
+								},
+								{
+									"key": "type",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "节假日请假列表/审批 ids 是条目id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ClassNo\": \"630601011701\",\n  \"StudentNo\": \"\",\n  \"OrderId\":\"23\",\n  \"StudentName\": \"\",\n  \"Status\": \"1\",\n  \"ids\":[\"GridView1$ctl02$IsCheck\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/FDYLeaveExam"
+					},
+					"response": []
+				},
+				{
+					"name": "销假列表/审批 参数ids 表示传入审核的的id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"TermNo\": \"\",\n  \"ClassNo\": \"630601011701\",\n  \"StudentNo\": \"\",\n  \"StudentName\": \"\",\n  \"LeaveType\":\"\",\n  \"ids\":[\"GridView1$ctl02$IsCheck\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/FDYDisAllLeave"
+					},
+					"response": []
+				},
+				{
+					"name": "节假日销假列表/审批 参数ids 表示传入审核的的id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"TermNo\": \"\",\n  \"ClassNo\": \"630601011701\",\n  \"StudentNo\": \"\",\n  \"StudentName\": \"\",\n  \"LeaveType\":\"\",\n  \"ids\":[\"GridView1$ctl02$IsCheck\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/FDYDisLeave"
+					},
+					"response": []
+				},
+				{
+					"name": "修改密码",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"OldPass\": \"bcl789000\",\n  \"NewPass\": \"bcl78900\",\n  \"NewPassAgin\": \"bcl78900\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/TeacherChangePass"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "\b登陆",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"loginName\":\"172052267\", \"loginPwd\":\"\"}"
+				},
+				"url": {
+					"raw": "{{url}}/login?type=cookie",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "cookie"
+						}
+					]
+				},
+				"description": "登陆"
+			},
+			"response": []
+		},
+		{
+			"name": "个人信息",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbk5hbWUiOiIxNzIwNTIyNjciLCJpYXQiOjE1NTk5NjkyNzd9.dm0fdi4fYeoxHXOvv_Syw-Yvl3-V2RfanSGht0uhLZg",
+						"type": "text"
+					}
+				],
+				"url": "{{url}}/user_info"
+			},
+			"response": []
+		},
+		{
+			"name": "素拓分列表",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbk5hbWUiOiIxNzIwNTIyNjciLCJpYXQiOjE1NjAwNjE4NDR9.5HBqCMLKdsYhW-Q7rXKVmHMk8R4O9VlMlTQYr-VyGaA",
+						"type": "text"
+					}
+				],
+				"url": "{{url}}/MyActionGetNum",
+				"description": "素拓分列表"
+			},
+			"response": []
+		},
+		{
+			"name": "基础信息",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbk5hbWUiOiIxNzIwNTIyNjciLCJpYXQiOjE1NTk5NjkyNzd9.dm0fdi4fYeoxHXOvv_Syw-Yvl3-V2RfanSGht0uhLZg",
+						"type": "text"
+					}
+				],
+				"url": "{{url}}/WorkInfo"
+			},
+			"response": []
+		},
+		{
+			"name": "素拓列表",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbk5hbWUiOiIxNzMwNTU5NzYiLCJpYXQiOjE1NjAwNjE5NzF9.txDQVJ9E2dJvcxLREyQXhvxw_X0wxYev2gOCKXIy36g",
+						"type": "text"
+					}
+				],
+				"url": "{{url}}/getStuActive"
+			},
+			"response": []
+		},
+		{
+			"name": "\b评价",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbk5hbWUiOiIxNzIwNTIyNjciLCJpYXQiOjE1NjAwNjE4NDR9.5HBqCMLKdsYhW-Q7rXKVmHMk8R4O9VlMlTQYr-VyGaA",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"id\":\"6852\"}]"
+				},
+				"url": "{{url}}/AppAction"
+			},
+			"response": []
+		},
+		{
+			"name": "宿舍卫生",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": ""
+			},
+			"response": []
+		},
+		{
+			"name": "msg",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"msg\":\"123sdfasdf\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/msg"
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/eggs?type=12&stuNo=172052267",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/eggs?type=1wwe&stuNo=172052267",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"eggs"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "1wwe"
+						},
+						{
+							"key": "stuNo",
+							"value": "172052267"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查询彩蛋",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/getEggs?stuNo=172052222",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getEggs"
+					],
+					"query": [
+						{
+							"key": "stuNo",
+							"value": "172052222"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "56ca5e1e-93f7-4ae8-afe7-d651ca2fbb2d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8d90a2e6-0973-4b45-8555-b9e06eda0471",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
