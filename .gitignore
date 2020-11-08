@@ -5,3 +5,4 @@ ocr.config.js
 bmob.config.js
 /www
 *.log
+db.config.js

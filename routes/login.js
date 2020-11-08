@@ -1,7 +1,7 @@
 const { parsePostData } = require('../utils/jvtc_pars');
 const blackUser = require('../middles/black_user');
-
-async function fun(ctx, next) {
+const db = require('../db')
+async function fun (ctx, next) {
   const [errr, data] = await parsePostData(ctx);
 
   if (errr) {
@@ -46,7 +46,7 @@ async function fun(ctx, next) {
     console.log("Time:" + new Date(), `u:${loginName},p:${loginPwd} 登陆成功,t:${type}`);
     ctx.store.set(loginName, ctx.jvtc.o);
     try {
-      ctx.dbx.student.save(loginName, loginPwd);
+      db.LoginLogs.insert(loginName, ctx.path, ctx.ip);
     } catch (error) {
       console.log(error);
     }

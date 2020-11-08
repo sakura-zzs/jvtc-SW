@@ -27,6 +27,8 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^7.4.0",
     "koa2-cors": "^2.0.6",
+    "mysql": "^2.18.1",
+    "node-cron": "^2.0.3",
     "node-encrypt": "^1.1.0",
     "node-jsencrypt": "^1.0.0",
     "superagent": "^5.1.0",

@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 console.log('\033[40;36m路由加载中\033[0m');
 
+const db = require('../db');
+
 const cwd = process.cwd();
 const route_dir = path.join(cwd, 'routes');
 const jvtc_dll = fs.readdirSync(route_dir);
@@ -14,10 +16,11 @@ jvtc_dll.forEach(dllname => {
     if (route.hasOwnProperty(key)) {
 
       console.log('\u001b[49;31m' + key + '\033[0m');
+
       const fun = async (ctx, next) => {
         await route[key](ctx, next);
         try {
-          ctx.dbx.apiCount.save(ctx.url);
+          db.ApiCount.insert(ctx.path, ctx.url, ctx.ip, ctx.req.headers['user-agent']);
         } catch (error) {
           console.log(error);
         }

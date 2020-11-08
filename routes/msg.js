@@ -1,6 +1,6 @@
 const { parsePostData } = require('../utils/jvtc_pars');
 
-async function fun(ctx, next) {
+async function fun (ctx, next) {
 
   const [errr, data] = await parsePostData(ctx);
 
@@ -11,8 +11,9 @@ async function fun(ctx, next) {
 
   try {
 
-    const { msg,stuNo } = JSON.parse(data);
-    ctx.dbx.msg.save(msg,stuNo);
+    // const { msg,stuNo } = JSON.parse(data);
+    ctx.dbx.msg.save(msg, stuNo);
+
     ctx.body = {
       code: 0, message: "完成"
     };
