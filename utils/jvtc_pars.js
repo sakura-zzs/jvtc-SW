@@ -468,7 +468,7 @@ function parsFDYAllLeaveExam_EditForm (html) {
 }
 
 function parseTeacherFDYAllLeaveExamStat (html) {
-  const rexErr = /<script>alert\('操作成功!'\);<\/script>/;
+  const rexErr = /<script>alert\('操作成功!'\);/;
   try {
     if (rexErr.test(html)) {
       return {

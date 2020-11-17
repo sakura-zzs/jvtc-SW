@@ -17,7 +17,7 @@ function toError(fn) {
 function jvtc_post(url, { cookies, args }, fn) {
 	console.log('args',args);
 	superagent.post(url)
-		.timeout(5 * 1000)
+		.timeout(6 * 1000)
 		.set('Cookie', cookies)
 		// // 
 		// .type("form")

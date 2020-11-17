@@ -30,6 +30,15 @@ class ApiCount extends BaseTable {
       })
     })
   }
+  todayCount () {
+    return new Promise((resolve, reject) => {
+      db.query(`SELECT COUNT(*) AS count FROM (SELECT path FROM api_count WHERE date(created_time) = curdate()) t;`, (err, res) => {
+        if (err) return reject(err);
+        const c = res[0];
+        resolve(c ? c.count : 0);
+      })
+    })
+  }
 
   daysCount () {
     return new Promise((resolve, reject) => {
@@ -251,7 +260,16 @@ class LoginLogs {
   }
   userCount () {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT COUNT(*) AS count FROM (SELECT distinct stu_no FROM login_logs) t；`, (err, res) => {
+      db.query(`SELECT COUNT(*) AS count FROM (SELECT distinct stu_no FROM login_logs) t;`, (err, res) => {
+        if (err) return reject(err);
+        const c = res[0];
+        resolve(c ? c.count : 0);
+      })
+    })
+  }
+  todayCount () {
+    return new Promise((resolve, reject) => {
+      db.query(`SELECT COUNT(*) as count FROM (SELECT DISTINCT stu_no FROM login_logs WHERE date(created_time) = curdate()) t;`, (err, res) => {
         if (err) return reject(err);
         const c = res[0];
         resolve(c ? c.count : 0);

@@ -12,15 +12,16 @@ async function fun (ctx, next) {
   let { toDayApiNum, toMonthApisNum, toAllUserNum, toDayNewUserNum, time } = _default;
   if (Date.now() - time > 3600000) {
     try {
-      toDayApiNum = await db.ApiCount.daysCount();
-      toDayApiNum = _default.toDayApiNum = toDayApiNum[0] ? toDayApiNum[0].count : 0;
+      toDayApiNum = await db.ApiCount.todayCount();
+      toDayApiNum = _default.toDayApiNum = toDayApiNum || 0;
       toMonthApisNum = await db.ApiCount.count();
       _default.toMonthApisNum = toMonthApisNum;
 
       toAllUserNum = await db.LoginLogs.userCount();
       _default.toAllUserNum = toAllUserNum;
-      toDayNewUserNum = await db.LoginLogs.daysCount();
-      const tday = toDayNewUserNum = toDayNewUserNum[0] && new Date(toDayNewUserNum[0].days).getDate() === new Date().getDate() ? toDayNewUserNum[0].count : 0;
+      toDayNewUserNum = await db.LoginLogs.todayCount();
+      console.log('toDayNewUserNum',toDayNewUserNum);
+      const tday = toDayNewUserNum || 0;
       _default.toDayNewUserNum = tday;
     } catch (error) {
     }
