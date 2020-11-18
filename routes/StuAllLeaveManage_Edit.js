@@ -2,7 +2,7 @@
  * @Author: bucai
  * @Date: 2020-11-17 16:42:21
  * @LastEditors: bucai
- * @LastEditTime: 2020-11-17 20:49:20
+ * @LastEditTime: 2020-11-18 10:40:26
  * @Description: 
  */
 const { parsePostData } = require("../utils/jvtc_pars");
@@ -16,15 +16,14 @@ async function fun (ctx, next) {
   }
 
   try {
-    const { starttime, endtime, LeaveThing, OutAddress, id, isDelete } = JSON.parse(data);
+    const { starttime, endtime, LeaveThing, OutAddress, id, isDelete, LeaveType } = JSON.parse(data);
 
     if (!starttime || !endtime) {
       ctx.body = { code: -1, message: "参数错误" };
       return;
     }
 
-
-    const [err, data_] = await ctx.jvtc.StuAllLeaveManage_Edit({ starttime, endtime, LeaveThing, OutAddress, id, isDelete })
+    const [err, data_] = await ctx.jvtc.StuAllLeaveManage_Edit({ starttime, endtime, LeaveThing, OutAddress, id, isDelete, LeaveType })
 
     if (err) throw err;
     ctx.body = {

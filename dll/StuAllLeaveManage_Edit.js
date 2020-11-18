@@ -2,14 +2,14 @@
  * @Author: bucai
  * @Date: 2020-11-17 16:27:41
  * @LastEditors: bucai
- * @LastEditTime: 2020-11-17 20:49:37
+ * @LastEditTime: 2020-11-18 16:02:33
  * @Description: 
  */
 const { jvtc_get, jvtc_post } = require('../utils/jvtc_request');
-const { parsArgs, parsFDYAllLeaveExam_EditForm, parseTeacherFDYAllLeaveExamStat } = require('../utils/jvtc_pars');
+const { parsArgs, parsFDYAllLeaveExam_EditForm, parseTeacherFDYAllLeaveExamStat1 } = require('../utils/jvtc_pars');
 const { StuAllLeaveManage_Edit } = require('../apis/api');
 const { json2form } = require('../utils/utils');
-async function jvtc_fun ({ starttime, endtime, LeaveThing, OutAddress, id, isDelete }) {
+async function jvtc_fun ({ starttime, endtime, LeaveThing, OutAddress, id, isDelete, LeaveType }) {
 
   return new Promise((resolve, reject) => {
     let type = 'Add'
@@ -21,16 +21,23 @@ async function jvtc_fun ({ starttime, endtime, LeaveThing, OutAddress, id, isDel
       if (!res) {
         return reject(err);
       }
+
       const { text } = res;
+
+      const { stat: _stat, error: _error } = parseTeacherFDYAllLeaveExamStat1(res.text);
+
+      if (_error) {
+        return reject(_error);
+      }
+
       this.o.args = parsArgs(text);
       const form = {
-
         "AllLeave1aLeaveBeginDate": starttime.split(' ')[0],
         "AllLeave1$LeaveBeginTime": starttime.split(' ')[1],
         "AllLeave1aLeaveEndDate": endtime.split(' ')[0] || '12',
         "AllLeave1$LeaveEndTime": endtime.split(' ')[1] || '12',
         "AllLeave1$LeaveNumNo": ((new Date(endtime.split(' ')[0]) - new Date(starttime.split(' ')[0])) / 3600 / 1000 / 24) | 0,
-        "AllLeave1$LeaveType": "事假",
+        "AllLeave1$LeaveType": LeaveType || '事假',
         "AllLeave1$LeaveThing": LeaveThing || "",
         "AllLeave1$OutAddress": OutAddress || '',
         "AllLeave1$WithNumNo": "0",
@@ -72,7 +79,10 @@ async function jvtc_fun ({ starttime, endtime, LeaveThing, OutAddress, id, isDel
           if (!res) {
             throw err;
           }
-          const { stat, error } = parseTeacherFDYAllLeaveExamStat(res.text);
+          const { stat, error } = parseTeacherFDYAllLeaveExamStat1(res.text);
+          if (stat === 0) {
+            return reject(new Error(id + '出现意外'));
+          }
           if (error) {
             return reject(error);
           }

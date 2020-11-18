@@ -468,6 +468,7 @@ function parsFDYAllLeaveExam_EditForm (html) {
 }
 
 function parseTeacherFDYAllLeaveExamStat (html) {
+
   const rexErr = /<script>alert\('操作成功!'\);/;
   try {
     if (rexErr.test(html)) {
@@ -480,7 +481,51 @@ function parseTeacherFDYAllLeaveExamStat (html) {
     return { error: error };
   }
 }
+function parseTeacherFDYAllLeaveExamStat1 (html) {
+  const errmessage = html.substr(0, 100);
+  console.log('errmessage', errmessage);
+  const rexErr = /<script>alert\(['"](.*?)['"]\);/;
+  if (!rexErr.test(errmessage)) {
+    return {
+      stat: 0
+    };
+  }
+  const message = errmessage.match(rexErr)[1];
 
+
+  if (message.includes('成功')) {
+    return {
+      stat: 1
+    }
+  }
+
+  return {
+    error: new Error(message)
+  }
+
+}
+
+function ParseStuAllLeaveManage (html) {
+  const $ = cheerio.load(html);
+  const list = [];
+  $('#GridView1').find('tr').each((i, el) => {
+    if (i == 0) {
+      return;
+    }
+    const _list = [];
+    const rex = /Id=([0-9]+)/;
+    const id = $(el).html().match(rex)[1];
+    _list.push(id);
+    $(el).find('td').each((i, item) => {
+      if (i <= 1) {
+        return;
+      }
+      _list.push($(item).text());
+    });
+    list.push(_list);
+  });
+  return list;
+}
 
 function parseTeacherFDYLeaveExam (html) {
   const rexErr = /<script>alert\('操作成功(.*?)'\);<\/script>/;
@@ -596,12 +641,14 @@ module.exports = {
   parseStuJudegScore,
   parsePostData,
   parseOptions,
+  ParseStuAllLeaveManage,
   // 老师相关
   parseTeacherInfo,
   parseTeacherReSetpass,
   parseTeacherFDYAllLeaveExam,
   parsFDYAllLeaveExam_EditForm,
   parseTeacherFDYAllLeaveExamStat,
+  parseTeacherFDYAllLeaveExamStat1,
   parseTeacherFDYLeaveExam,
   parseTeacherFDYDisAllLeave,
   parseTeacherFDYDisLeave

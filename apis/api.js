@@ -11,6 +11,7 @@ const MyActionGetNum = baseUrl + "SystemForm/StuActive/MyActionGetNum.aspx";
 const StuEnlightenRoomScore = baseUrl + "SystemForm/Gardens/StuEnlightenRoomScore.aspx";
 const StuJudgeScore = baseUrl + "SystemForm/StudentJudge/StuJudgeScore.aspx";
 const StuAllLeaveManage_Edit = baseUrl + "SystemForm/Leave/StuAllLeaveManage_Edit.aspx?Status=";
+const StuAllLeaveManage = baseUrl + "/SystemForm/Leave/StuAllLeaveManage.aspx";
 
 // 老师相关
 const TeacherInfo = baseUrl + "SystemForm/Personal/MyPerson.aspx";
@@ -36,6 +37,7 @@ module.exports = {
   Navigation,
   StuJudgeScore,
   StuAllLeaveManage_Edit,
+  StuAllLeaveManage,
   // 老师相关
   TeacherInfo,
   TeacherReSetpass,
