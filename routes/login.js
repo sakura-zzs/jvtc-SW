@@ -30,23 +30,32 @@ async function fun (ctx, next) {
       throw "请核对账号密码";
     }
 
-    // console.log({
-    //   loginName, loginPwd
-    // });
-
-    const [errmsg, code] = await ctx.jvtc.login({ loginName, loginPwd });
+    let errmsg, code;
+    // 用户名或密码
+    let loginCount = 3;
+    do {
+      [errmsg, code] = await ctx.jvtc.login({ loginName, loginPwd });
+      if (code !== 0) {
+        loginCount--;
+        const _errmsg = errmsg && errmsg.message || String(errmsg);
+        if (_errmsg.includes('用户名或密码错误')) {
+          loginCount = -1;
+        }
+        // Redis 有问题 会导致 ctx.body 无法 起到作用 (暂时不知道怎么解决)
+      } else {
+        loginCount = -1;
+      }
+    } while (loginCount >= 0);
     if (code !== 0) {
       throw new Error(errmsg);
-      // Redis 有问题 会导致 ctx.body 无法 起到作用 (暂时不知道怎么解决)
     }
-    console.log(111);
-    // 获取登陆类型
+    // 获取登录类型
     const [, type] = await ctx.jvtc.isType();
 
-    console.log("Time:" + new Date(), `u:${loginName},p:${loginPwd} 登陆成功,t:${type}`);
+    console.log("Time:" + new Date(), `u:${loginName},p:${loginPwd} 登录成功,t:${type}`);
     ctx.store.set(loginName, ctx.jvtc.o);
     try {
-      db.LoginLogs.insert(loginName, ctx.path, ctx.ip);
+      db.LoginLogs.insert(loginName, ctx.ip, type);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +70,7 @@ async function fun (ctx, next) {
     }
 
     const token = await ctx.jwt.sign({ loginName });
-    ctx.body = { code, message: "登陆成功", token, cookies, type };
+    ctx.body = { code, message: "登录成功", token, cookies, type };
 
   } catch (error) {
     console.log(error);

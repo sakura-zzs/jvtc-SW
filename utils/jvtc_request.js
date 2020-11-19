@@ -8,7 +8,7 @@ function toError(fn) {
 	return function (req, res) {
 		const rex = /window\.top\.location='\.\.\/UserLogin\.html'/;
 		if (res && rex.test(res.text)) {
-			fn.errmsg = '登陆超时'
+			fn.errmsg = '登录超时'
 		}
 		fn && fn(req, res);
 	}

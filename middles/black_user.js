@@ -6,15 +6,15 @@ module.exports = async function (loginName, store) {
   if (userLoginNum.num >= 90) {
     throw {
       code: -1,
-      msg: "兄弟，登陆这么多次不累吗，服务器好累的"
+      msg: "兄弟，登录这么多次不累吗，服务器好累的"
     }
   }
 
-  // 登陆间隙
-  if (userLoginNum.time + 2000 > Date.now()) {
+  // 登录间隙
+  if (userLoginNum.time + 1000 > Date.now()) {
     throw {
       code: -1,
-      msg: "登陆频繁，5秒后再试试吧"
+      msg: "登录频繁，3秒后再试试吧"
     }
   }
   await store.set(key, { num: userLoginNum.num + 1, time: Date.now() });

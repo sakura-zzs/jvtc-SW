@@ -204,7 +204,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "\b登陆",
+			"name": "\b登录",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -237,7 +237,7 @@
 						}
 					]
 				},
-				"description": "登陆"
+				"description": "登录"
 			},
 			"response": []
 		},

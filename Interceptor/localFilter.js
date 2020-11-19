@@ -15,7 +15,7 @@ const filter = function (filters_url) {
     const jvtc = null;
 
     if (!jvtc) {
-      ctx.body = { code: -1, message: "请先登陆" };
+      ctx.body = { code: -1, message: "请先登录" };
       return;
     }
 

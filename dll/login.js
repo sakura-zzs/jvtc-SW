@@ -48,7 +48,7 @@ async function jvtc_fun({ loginName, loginPwd }) {
     // 获取参数列表
     const args = jvtc_args(this.o.args, loginName, loginPwd, code);
 
-    // 登陆并获取之后的cookie
+    // 登录并获取之后的cookie
     const [err, data] = await jvtc_cookies(cookies, args);
     console.log('err, data',err, data);
     if (err) {

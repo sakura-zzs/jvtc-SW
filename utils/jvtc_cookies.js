@@ -18,7 +18,7 @@ module.exports = async function (cookies, args) {
           if (err.status > 300 && err.status < 400) {
             console.log('login=> 重定向');
           } else {
-            throw '登陆失败';
+            throw '登录失败';
           }
         }
 
@@ -39,7 +39,7 @@ module.exports = async function (cookies, args) {
         }
 
         const cookies = parsCookies(res.headers);
-        // 登陆成功标志
+        // 登录成功标志
         // this.isLogin = true;
         resolve([null, cookies]);
 
