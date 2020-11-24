@@ -1,4 +1,4 @@
-const baseUrl = "http://xz.jvtc.jx.cn/JVTC_XG/";
+const baseUrl = process.env.NODE_ENV == 'development' ? "http://xz.jvtc.jx.cn/JVTC_XG/" : "http://proxy_jvtc.ncgame.cc/JVTC_XG/";
 
 const login = baseUrl + "UserLogin.aspx";
 const init = baseUrl + "UserLogin.html";
@@ -22,7 +22,12 @@ const FDYAllLeaveExam_Edit = baseUrl + "SystemForm/Leave/FDYAllLeaveExam_Edit.as
 const FDYLeaveExam = baseUrl + "SystemForm/Leave/FDYLeaveExam.aspx";
 const FDYDisAllLeave = baseUrl + "SystemForm/Leave/FDYDisAllLeave.aspx";
 const FDYDisLeave = baseUrl + "SystemForm/Leave/FDYDisLeave.aspx";
-const TeacherChangePass = baseUrl +'SystemForm/Personal/ChangePass.aspx';
+const TeacherChangePass = baseUrl + 'SystemForm/Personal/ChangePass.aspx';
+
+// 校园卡
+const ICBCINBSEstablishSessionServlet = 'https://fee.icbc.com.cn/servlet/ICBCINBSEstablishSessionServlet';
+
+
 
 module.exports = {
   login,

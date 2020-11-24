@@ -23,6 +23,7 @@ async function fun (ctx, next) {
       console.log('toDayNewUserNum',toDayNewUserNum);
       const tday = toDayNewUserNum || 0;
       _default.toDayNewUserNum = tday;
+      _default.time = Date.now();
     } catch (error) {
     }
   }
