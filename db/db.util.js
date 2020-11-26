@@ -1,13 +1,51 @@
 const mysql = require('mysql');
 const config = require('../db.config');
 
-const connection = mysql.createConnection({
-  ...config
-});
+class DBUtils {
+  constructor(options) {
+    this.options = options;
+    this.connection();
+  }
+  connection () {
+    if (this.conn) {
+      try {
+        this.conn.destroy();
+      } catch (error) {
+        console.log('destroy=>', error);
+      }
+    }
+    const connection = this.conn = mysql.createConnection(this.options);
+    connection.connect((err) => {
+      if (err) {
+        console.error('connection=> ' + err);
+        setTimeout(() => {
+          this.connection()
+        }, 1000);
+        return;
+      }
+      console.log('connection mysql success');
+    });
+    connection.on('error', (err) => {
+      if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+        this.connection();
+      } else {
+        throw err;
+      }
+    });
+  }
 
-connection.connect((err) => {
-  if (err) return console.error('connection' + err);
-  console.log('connection mysql success');
-});
+  query (...args) {
+    if (typeof args[args.length - 1] === 'function') {
+      return this.conn.query(...args);
+    }
+    return new Promise((resolve, reject) => {
+      args.push((err, res) => {
+        if (err) return reject(err);
+        resolve(res);
+      })
+      this.conn.query(...args);
+    })
+  }
+}
 
-module.exports = connection;
+module.exports = new DBUtils(config);
