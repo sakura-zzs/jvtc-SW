@@ -23,9 +23,9 @@ async function initData () {
     toAllUserNum = await db.LoginLogs.userCount();
     console.timeEnd('userCount')
     _default.toAllUserNum = toAllUserNum;
-    console.time('todayCount')
+    console.time('LoginLogs todayCount')
     toDayNewUserNum = await db.LoginLogs.todayCount();
-    console.timeEnd('todayCount')
+    console.timeEnd('LoginLogs todayCount')
     console.log('toDayNewUserNum', toDayNewUserNum);
     const tday = toDayNewUserNum || 0;
     _default.toDayNewUserNum = tday;

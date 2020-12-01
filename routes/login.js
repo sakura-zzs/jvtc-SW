@@ -81,6 +81,35 @@ async function fun (ctx, next) {
 
 }
 
+/**
+ * 
+ * @param {import('koa').Context} ctx 
+ */
+async function userInfo (ctx) {
+  const [errr, data] = await parsePostData(ctx);
+
+  if (errr) {
+    ctx.body = JSON.stringify(errr);
+    return;
+  }
+
+  const { token } = JSON.parse(data);
+  if (!token) {
+    ctx.body = { code: -1, message: error.message || error };
+    return;
+  }
+  const { loginName } = await ctx.jwt.getPayload(token);
+
+  ctx.body = {
+    code: 0,
+    data: {
+      loginName
+    }
+  }
+
+}
+
 module.exports = {
   'POST /login': fun,
+  'POST /auth/userInfo': userInfo
 }
