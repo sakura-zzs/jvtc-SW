@@ -3,7 +3,7 @@ const jvtc_code = require('../utils/jvtc_code');
 const jvtc_cookies = require('../utils/jvtc_cookies');
 const jvtc_args = require('../utils/jvtc_args');
 
-async function jvtc_fun({ loginName, loginPwd }) {
+async function jvtc_fun ({ loginName, loginPwd }) {
   // 简单过滤一下账号密码
   if (!/^([0-9]{4,})$/.test(loginName) || !/^([^'"]+)$/.test(loginPwd)) {
     return ["传入的参数错误", -1];
@@ -30,10 +30,14 @@ async function jvtc_fun({ loginName, loginPwd }) {
         // 获取验证码的buffer对象
         const buffer = await jvtc_code(cookies);
         // 识别
+        console.time('ocrClient:' + i);
         const result = await ocrClient.generalBasic(buffer.toString("base64"));
+        console.timeEnd('ocrClient:' + i);
+
         const words_result = result['words_result'];
+        console.log('words_result', words_result);
         // 验证
-        code = words_result && words_result.length && words_result[0].words;
+        code = words_result && words_result.length && words_result[0].words.replace(/\s/g, '');
         if (code && code.length == 5 && String(parseInt(code)).length == 5) {
           console.log("Time:" + new Date(), `CODE: 识别 ${4 - i} 次成功`);
           i = 0;
@@ -50,7 +54,7 @@ async function jvtc_fun({ loginName, loginPwd }) {
 
     // 登录并获取之后的cookie
     const [err, data] = await jvtc_cookies(cookies, args);
-    console.log('err, data',err, data);
+    console.log('err, data', err, data);
     if (err) {
       return reject(err);
     }

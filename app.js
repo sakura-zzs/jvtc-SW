@@ -46,7 +46,10 @@ app.use(async (ctx, next) => {
 
 app.use(jwt({ secret: SECRET_OR_PRIVATE_KEY }).unless({ path: FILTERS_URL }));
 
-app.use(redisStore());
+app.use(redisStore({
+  host: process.env.REDIS_HOST || '127.0.0.1',
+}));
+console.log('process.env.REDIS_HOST',process.env.REDIS_HOST);
 app.use(apiMiddle());
 
 // app.use(blackUser());

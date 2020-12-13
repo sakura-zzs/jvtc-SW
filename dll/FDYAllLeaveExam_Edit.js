@@ -35,8 +35,6 @@ async function jvtc_fun({ id, type }) {
           if (!res) {
             throw err;
           }
-          // console.log(res.text);
-
           const { stat, error } = parseTeacherFDYAllLeaveExamStat(res.text);
           if (error) {
             return reject(error);

@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./test/main.js",
-    "dev": "cross-env NODE_ENV=development supervisor ./app.js",
+    "dev": "cross-env NODE_ENV=production supervisor ./app.js",
     "serve": "cross-env NODE_ENV=production supervisor ./app.js",
+    "start": "cross-env NODE_ENV=production REDIS_HOST=bucai-redis supervisor ./app.js",
     "app": "node ./app.js"
   },
   "author": "",

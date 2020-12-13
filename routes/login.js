@@ -30,6 +30,8 @@ async function fun (ctx, next) {
       throw "请核对账号密码";
     }
 
+    // console.log('====');
+
     let errmsg, code;
     // 用户名或密码
     let loginCount = 3;
@@ -46,6 +48,8 @@ async function fun (ctx, next) {
         loginCount = -1;
       }
     } while (loginCount >= 0);
+    
+
     if (code !== 0) {
       throw new Error(errmsg);
     }
@@ -59,7 +63,7 @@ async function fun (ctx, next) {
     } catch (error) {
       console.log(error);
     }
-
+    
     let cookies;
     switch (ctx.query.type) {
       case 'cookie':
@@ -68,7 +72,7 @@ async function fun (ctx, next) {
       default:
         break;
     }
-
+    
     const token = await ctx.jwt.sign({ loginName });
     ctx.body = { code, message: "登录成功", token, cookies, type };
 
