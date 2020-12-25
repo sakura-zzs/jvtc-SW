@@ -1,6 +1,9 @@
 const { parsePostData } = require('../utils/jvtc_pars');
 const blackUser = require('../middles/black_user');
-const db = require('../db')
+const db = require('../db');
+const { getUserIp } = require('../utils/utils');
+
+
 async function fun (ctx, next) {
   const [errr, data] = await parsePostData(ctx);
 
@@ -48,7 +51,7 @@ async function fun (ctx, next) {
         loginCount = -1;
       }
     } while (loginCount >= 0);
-    
+
 
     if (code !== 0) {
       throw new Error(errmsg);
@@ -59,11 +62,12 @@ async function fun (ctx, next) {
     console.log("Time:" + new Date(), `u:${loginName},p:${loginPwd} 登录成功,t:${type}`);
     ctx.store.set(loginName, ctx.jvtc.o);
     try {
-      db.LoginLogs.insert(loginName, ctx.ip, type);
+      const ip = getUserIp(ctx);
+      db.LoginLogs.insert(loginName, ip, type);
     } catch (error) {
       console.log(error);
     }
-    
+
     let cookies;
     switch (ctx.query.type) {
       case 'cookie':
@@ -72,7 +76,7 @@ async function fun (ctx, next) {
       default:
         break;
     }
-    
+
     const token = await ctx.jwt.sign({ loginName });
     ctx.body = { code, message: "登录成功", token, cookies, type };
 

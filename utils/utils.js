@@ -1,5 +1,5 @@
 var iconv = require('iconv-lite');
-function encode(str, charset = 'gb2312') {
+function encode (str, charset = 'gb2312') {
 
   var buf = iconv.encode(str, charset);
   var encodeStr = '';
@@ -19,12 +19,21 @@ exports.encode = encode;
 
 exports.json2form = function (obj) {
   let str = '';
-  
+
   Object.keys(obj).forEach(key => {
-    const val =/[\u4e00-\u9fa5]/.test(obj[key])? encode(obj[key]): encodeURIComponent(obj[key]);
+    const val = /[\u4e00-\u9fa5]/.test(obj[key]) ? encode(obj[key]) : encodeURIComponent(obj[key]);
     const endStr = encodeURIComponent(key) + "=" + val + "&";
     str += endStr;
   });
-  
+
   return str;
+}
+
+
+exports.getUserIp = (req) => {
+  return [req.headers['x-forwarded-for'],
+  req.headers['X-Forwarded-For'],
+  req.headers['X-Orig-IP'],
+  req.headers['x-orig-ip'],
+  req.ip].filter(item => item).join(';');
 }

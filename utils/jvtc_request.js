@@ -36,7 +36,7 @@ function jvtc_get(url, { cookies = '' } = {}, fn) {
 
 	superagent.get(url)
 		.set('Cookie', cookies)
-		.timeout(5 * 1000)
+		.timeout(6 * 1000)
 		// // 
 		// .type("form")
 		// .use(nocache)

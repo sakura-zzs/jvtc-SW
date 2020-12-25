@@ -4,6 +4,7 @@ const path = require('path');
 console.log('\033[40;36m路由加载中\033[0m');
 
 const db = require('../db');
+const { getUserIp } = require('../utils/utils');
 
 const cwd = process.cwd();
 const route_dir = path.join(cwd, 'routes');
@@ -20,7 +21,8 @@ jvtc_dll.forEach(dllname => {
       const fun = async (ctx, next) => {
         await route[key](ctx, next);
         try {
-          db.ApiCount.insert(ctx.path, ctx.url, ctx.ip, ctx.req.headers['user-agent']);
+          const ip = getUserIp(ctx);
+          db.ApiCount.insert(ctx.path, ctx.url, ip, ctx.req.headers['user-agent']);
         } catch (error) {
           console.log(error);
         }

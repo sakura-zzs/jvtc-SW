@@ -27,8 +27,6 @@ const TeacherChangePass = baseUrl + 'SystemForm/Personal/ChangePass.aspx';
 // 校园卡
 const ICBCINBSEstablishSessionServlet = 'https://fee.icbc.com.cn/servlet/ICBCINBSEstablishSessionServlet';
 
-
-
 module.exports = {
   login,
   init,
