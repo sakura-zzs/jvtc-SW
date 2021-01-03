@@ -1,4 +1,4 @@
-const baseUrl = process.env.NODE_ENV == 'development' ? "http://xz.jvtc.jx.cn/JVTC_XG/" : "http://proxy_jvtc.ncgame.cc/JVTC_XG/";
+const baseUrl = process.env.NODE_ENV == 'development' ? "http://xz.jvtc.jx.cn/JVTC_XG/" : "http://jvtc.cdn.notbucai.com/JVTC_XG/";
 
 const login = baseUrl + "UserLogin.aspx";
 const init = baseUrl + "UserLogin.html";
