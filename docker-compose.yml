@@ -3,7 +3,7 @@ version: "3.7"
 services:
   "jvtc-sw":
     build: .
-    image: "registry.cn-hangzhou.aliyuncs.com/notbucai/jvtc-sw"
+    image: "ccr.ccs.tencentyun.com/jiu-docker/jvtc-sw"
     restart: always
     ports: 
       - "3214:3214"

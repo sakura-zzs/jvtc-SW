@@ -3,8 +3,11 @@ const blackUser = require('../middles/black_user');
 const db = require('../db');
 const { getUserIp } = require('../utils/utils');
 
+let errorCount = 0;
+
 
 async function fun (ctx, next) {
+
   const [errr, data] = await parsePostData(ctx);
 
   if (errr) {
@@ -37,7 +40,7 @@ async function fun (ctx, next) {
 
     let errmsg, code;
     // 用户名或密码
-    let loginCount = 3;
+    let loginCount = 2;
     do {
       [errmsg, code] = await ctx.jvtc.login({ loginName, loginPwd });
       if (code !== 0) {
@@ -50,12 +53,17 @@ async function fun (ctx, next) {
       } else {
         loginCount = -1;
       }
-    } while (loginCount >= 0);
+    } while (loginCount > 0);
 
 
     if (code !== 0) {
+      if (loginCount == 0) {
+        errorCount++;
+        console.log('errorCount=>' + errorCount);
+      }
       throw new Error(errmsg);
     }
+    errorCount = 0;
     // 获取登录类型
     const [, type] = await ctx.jvtc.isType();
 

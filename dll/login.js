@@ -22,7 +22,7 @@ async function jvtc_fun ({ loginName, loginPwd }) {
 
     const cookies = this.o.cookies;
     // 标志
-    let i = 3, flag = false;
+    let i = 2, flag = false;
     let code = '00000';
     // 识别三次
     do {
