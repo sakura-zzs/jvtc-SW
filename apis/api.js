@@ -1,6 +1,7 @@
 const baseUrl = process.env.NODE_ENV == 'development' ? "http://xz.jvtc.jx.cn/JVTC_XG/" : "http://jvtc.cdn.notbucai.com/JVTC_XG/";
 
 const login = baseUrl + "UserLogin.aspx";
+const simpleLogin = baseUrl + "WebSite/ClassManageWeb/index.html";
 const init = baseUrl + "UserLogin.html";
 const img_code = baseUrl + "default3.html";
 const userinfo = baseUrl + "SystemForm/Class/MyStudent.aspx";
@@ -29,6 +30,7 @@ const ICBCINBSEstablishSessionServlet = 'https://fee.icbc.com.cn/servlet/ICBCINB
 
 module.exports = {
   login,
+  simpleLogin,
   init,
   userinfo,
   StuActive,

@@ -3,7 +3,6 @@ const { jvtc_get } = require('../utils/jvtc_request');
 const { parsArgs, parsUserinfo } = require('../utils/jvtc_pars');
 const { userinfo } = require('../apis/api');
 
-
 async function jvtc_fun() {
 
   return new Promise((resolve, reject) => {

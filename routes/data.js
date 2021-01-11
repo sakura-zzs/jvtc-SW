@@ -14,21 +14,27 @@ async function initData () {
     toDayApiNum = await db.ApiCount.todayCount();
     console.timeEnd('todayCount')
     toDayApiNum = _default.toDayApiNum = toDayApiNum || 0;
+    
     console.time('count')
     toMonthApisNum = await db.ApiCount.count();
     console.timeEnd('count')
     _default.toMonthApisNum = toMonthApisNum;
 
+
     console.time('userCount')
     toAllUserNum = await db.LoginLogs.userCount();
     console.timeEnd('userCount')
     _default.toAllUserNum = toAllUserNum;
+
+
     console.time('LoginLogs todayCount')
     toDayNewUserNum = await db.LoginLogs.todayCount();
     console.timeEnd('LoginLogs todayCount')
     console.log('toDayNewUserNum', toDayNewUserNum);
     const tday = toDayNewUserNum || 0;
     _default.toDayNewUserNum = tday;
+
+
   } catch (error) {
     console.log('error', error);
   }

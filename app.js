@@ -7,8 +7,13 @@ const apiMiddle = require('./middles/apiMiddle');
 const KoaCors = require('koa2-cors');
 const logger = require('koa-logger');
 
+const fs = require('fs');
+
 const Jvtc = require('./bin/jvtc');
-const { SECRET_OR_PRIVATE_KEY, FILTERS_URL, PORT } = require(process.env.NODE_ENV == 'development' ? './ocr.config.dev' : './ocr.config')
+
+const SECRET_OR_PRIVATE_KEY = fs.readFileSync('./jwt.pub');
+const FILTERS_URL = [/^\/login/, '\/', /^\/announcement/, /^\/data/, /^\/auth\/userinfo/];
+const PORT = 3214;
 
 const app = new Koa();
 app.use(logger());

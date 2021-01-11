@@ -4,46 +4,49 @@ const config = require('../db.config');
 class DBUtils {
   constructor(options) {
     this.options = options;
-    this.connection();
+    this.init();
+  }
+  init () {
+    this.pool = mysql.createPool({
+      ...this.options
+    });
   }
   connection () {
-    if (this.conn) {
+    return new Promise((resolve, reject) => {
+      // console.time('conn=>time');
       try {
-        this.conn.destroy();
+        this.pool.getConnection((err, connection) => {
+          // console.timeEnd('conn=>time');
+          if (err) {
+            console.log('err',err);
+            reject(err)
+          } else {
+            resolve(connection);
+          }
+          this.pool.releaseConnection(connection);
+        });
       } catch (error) {
-        console.log('destroy=>', error);
+        console.log('error',error);
+        reject(error);
       }
-    }
-    const connection = this.conn = mysql.createConnection(this.options);
-    connection.connect((err) => {
-      if (err) {
-        console.error('connection=> ' + err);
-        setTimeout(() => {
-          this.connection()
-        }, 1000);
-        return;
-      }
-      console.log('connection mysql success');
-    });
-    connection.on('error', (err) => {
-      if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-        this.connection();
-      } else {
-        throw err;
-      }
-    });
+    })
   }
 
-  query (...args) {
+  async query (...args) {
+    const conn = await this.connection();
     if (typeof args[args.length - 1] === 'function') {
-      return this.conn.query(...args);
+      return conn.query(...args);
     }
     return new Promise((resolve, reject) => {
       args.push((err, res) => {
-        if (err) return reject(err);
+        if (err) {
+          return reject(err);
+        }
         resolve(res);
-      })
-      this.conn.query(...args);
+      });
+      const query = conn.query(...args);
+      console.log('sql=>', query.sql);
+
     })
   }
 }

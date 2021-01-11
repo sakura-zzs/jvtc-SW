@@ -17,7 +17,6 @@ async function jvtc_fun() {
         type = 2;
       }
     }
-    console.log(type);
     
     resolve([null, type]);
   }).catch((error) => {

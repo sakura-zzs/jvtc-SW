@@ -4,7 +4,7 @@ const charset = require("superagent-charset");
 // const nocache = require('superagent-no-cache');
 superagent = charset(superagent); //设置字符
 
-function toError(fn) {
+function toError (fn) {
 	return function (req, res) {
 		const rex = /window\.top\.location='\.\.\/UserLogin\.html'/;
 		if (res && rex.test(res.text)) {
@@ -14,12 +14,11 @@ function toError(fn) {
 	}
 }
 
-function jvtc_post(url, { cookies, args }, fn) {
+function jvtc_post (url, { cookies, args }, fn) {
 	// console.log('args',args);
 	superagent.post(url)
 		.timeout(6 * 1000)
 		.set('Cookie', cookies)
-		// // 
 		// .type("form")
 		// .use(nocache)
 		.buffer(true)
@@ -32,11 +31,11 @@ function jvtc_post(url, { cookies, args }, fn) {
 		.end(toError(fn))
 }
 
-function jvtc_get(url, { cookies = '' } = {}, fn) {
+function jvtc_get (url, { cookies = '', timeout } = {}, fn) {
 
 	superagent.get(url)
 		.set('Cookie', cookies)
-		.timeout(6 * 1000)
+		.timeout(timeout || 6 * 1000)
 		// // 
 		// .type("form")
 		// .use(nocache)

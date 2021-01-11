@@ -1,9 +1,82 @@
+/*
+ * @Author: bucai
+ * @Date: 2021-01-08 13:41:28
+ * @LastEditors: bucai
+ * @LastEditTime: 2021-01-11 14:48:56
+ * @Description: 
+ */
 const AipOcrClient = require("baidu-aip-sdk").ocr;
+// 需要先生成一个cookie
 
-// 设置APPID/AK/SK
-const { APP_ID, API_KEY, SECRET_KEY } = require(process.env.NODE_ENV == 'development' ? '../ocr.config.dev' : '../ocr.config')
+class OcrClient {
+  constructor(options) {
+    if (!Array.isArray(options.configs)) {
+      this.configs = [options.configs];
+    } else {
+      this.configs = options.configs;
+    }
+    this.init();
+  }
 
-// 新建一个对象，建议只保存一个对象调用服务接口
-const client = new AipOcrClient(APP_ID, API_KEY, SECRET_KEY);
+  init () {
+    const clients = this.configs.map(config => {
+      const client = new AipOcrClient(config.APP_ID, config.API_KEY, config.SECRET_KEY);
+      return client;
+    });
+    this.clients = clients;
+  }
 
-module.exports = client;
+  getClient () {
+    const index = (Math.random() * this.clients.length) | 0;
+    return this.clients[index];
+  }
+
+  generalBasic (imgbuffer) {
+    let url = imgbuffer;
+    if (Buffer.isBuffer(imgbuffer)) {
+      url = imgbuffer.toString('base64');
+    }
+    const client = this.getClient();
+    return client.generalBasic(url).then(function (result) {
+      if (result.error_code > 0) {
+        throw new Error(result.error_msg)
+      }
+
+      const word_result = result.words_result[0];
+      if (word_result && word_result.words) {
+        const words = (word_result.words || '').replace(/[oO]/g, '0').replace(/[ilIL]/g, '1').replace(/[B]/g, '8').replace(/[zZ]/g, '2').replace(/[q]/g, '9').replace(/[^0-9]/g, '');
+        if (words.length >= 4) {
+          return words;
+        }
+      }
+      throw new Error("识别失败");
+    })
+  }
+
+
+  generalBasic2 (imgbuffer) {
+    let url = imgbuffer;
+    if (Buffer.isBuffer(imgbuffer)) {
+      url = imgbuffer.toString('base64');
+    }
+    const client = this.getClient();
+    return client.generalBasic(url, { language_type: 'ENG' }).then(function (result) {
+      if (result.error_code > 0) {
+        throw new Error(result.error_msg)
+      }
+
+      const word_result = result.words_result[0];
+      if (word_result && word_result.words) {
+        const words = (word_result.words || '').replace(/[^A-z]/g, '');
+        if (words.length >= 4) {
+          return words;
+        }
+      }
+      console.log('ocr', JSON.stringify(result));
+      throw new Error("识别失败");
+    })
+  }
+
+}
+
+module.exports = OcrClient;

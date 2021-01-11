@@ -14,7 +14,7 @@ module.exports = async function (cookies, args) {
         // }
         // 对 重定向处理
         if (!res) {
-          console.log('---err');
+          console.log('---err', err);
           if (err.status > 300 && err.status < 400) {
             console.log('login=> 重定向');
           } else {

@@ -32,7 +32,7 @@ class ApiCount extends BaseTable {
   }
   todayCount () {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT COUNT(*) AS count FROM (SELECT path FROM api_count WHERE date(created_time) = curdate()) t;`, (err, res) => {
+      db.query(`SELECT COUNT(*) AS count FROM api_count WHERE created_time >= CURDATE();`, (err, res) => {
         if (err) return reject(err);
         const c = res[0];
         resolve(c ? c.count : 0);

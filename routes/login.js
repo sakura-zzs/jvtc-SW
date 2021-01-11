@@ -23,7 +23,6 @@ async function fun (ctx, next) {
       await blackUser(loginName, ctx.store);
     } catch (error) {
       console.log(error);
-
       ctx.body = error.code && error || {
         code: -1,
         msg: error.msg
@@ -35,14 +34,12 @@ async function fun (ctx, next) {
     if (!loginName || !loginPwd) {
       throw "请核对账号密码";
     }
-
-    // console.log('====');
-
+    const apiName = ['login', 'simpleLogin'][(Math.random() * 2) | 0];
     let errmsg, code;
     // 用户名或密码
     let loginCount = 2;
     do {
-      [errmsg, code] = await ctx.jvtc.login({ loginName, loginPwd });
+      [errmsg, code] = await ctx.jvtc[apiName]({ loginName, loginPwd });
       if (code !== 0) {
         loginCount--;
         const _errmsg = errmsg && errmsg.message || String(errmsg);

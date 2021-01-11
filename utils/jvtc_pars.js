@@ -25,7 +25,6 @@ function parsArgs (html) {
 }
 
 function parsCookies (headers) {
-  // console.log(headers);
 
   let cookies = "";
   let endC = {};
