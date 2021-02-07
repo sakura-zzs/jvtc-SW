@@ -2,7 +2,7 @@
  * @Author: bucai
  * @Date: 2021-01-09 11:40:24
  * @LastEditors: bucai
- * @LastEditTime: 2021-01-11 14:56:08
+ * @LastEditTime: 2021-01-21 21:57:46
  * @Description: 
  */
 const { jvtc_get } = require('../utils/jvtc_request');
@@ -77,12 +77,18 @@ class ClientPool {
         if (!res) {
           return reject(err)
         }
-        const args = parsArgs(res.text)
-        const cookies = parsCookies(res.headers)
-        resolve({
-          args,
-          cookies
-        });
+        try {
+          const args = parsArgs(res.text)
+
+          const cookies = parsCookies(res.headers)
+          resolve({
+            args,
+            cookies
+          });
+        } catch (error) {
+          console.error('error', error);
+          reject(error)
+        }
       })
     });
   }

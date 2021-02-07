@@ -11,7 +11,7 @@ module.exports = async function (loginName, store) {
   }
 
   // 登录间隙
-  if (userLoginNum.time + 1000 > Date.now()) {
+  if (userLoginNum.time + 100 > Date.now()) {
     throw {
       code: -1,
       msg: "登录频繁，3秒后再试试吧"

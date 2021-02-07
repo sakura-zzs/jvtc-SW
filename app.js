@@ -12,7 +12,7 @@ const fs = require('fs');
 const Jvtc = require('./bin/jvtc');
 
 const SECRET_OR_PRIVATE_KEY = fs.readFileSync('./jwt.pub');
-const FILTERS_URL = [/^\/login/, '\/', /^\/announcement/, /^\/data/, /^\/auth\/userinfo/];
+const FILTERS_URL = [/^\/login/, '\/', /^\/announcement/, /^\/data/, /^\/auth\/userinfo/,/^\/ssologin/];
 const PORT = 3214;
 
 const app = new Koa();

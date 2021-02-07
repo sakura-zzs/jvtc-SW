@@ -197,7 +197,7 @@ module.exports = {
       }
     } while (errCount >= 0);
 
-    return _cookies;
+    return _cookies.join(';');
   },
   // 通过 sso cookie 激活 jwxt cookie
   async activeJwxtCookieBySsoCookie (jwxtCookie, ssoCookie) {
@@ -225,4 +225,3 @@ module.exports = {
     throw new Error("激活失败")
   }
 }
-

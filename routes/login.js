@@ -62,7 +62,7 @@ async function fun (ctx, next) {
     }
     errorCount = 0;
     // 获取登录类型
-    const [, type] = await ctx.jvtc.isType();
+    const type = '-';
 
     console.log("Time:" + new Date(), `u:${loginName},p:${loginPwd} 登录成功,t:${type}`);
     ctx.store.set(loginName, ctx.jvtc.o);
@@ -84,6 +84,77 @@ async function fun (ctx, next) {
 
     const token = await ctx.jwt.sign({ loginName });
     ctx.body = { code, message: "登录成功", token, cookies, type };
+
+  } catch (error) {
+    console.log(error);
+    ctx.body = { code: -1, message: error.message || error };
+  }
+
+  await next();
+
+}
+
+
+/**
+ * sso登录
+ * @param {import('koa').Context} ctx 
+ * @param {*} next 
+ */
+async function ssoLogin (ctx, next) {
+
+  const [errr, data] = await parsePostData(ctx);
+
+  if (errr) {
+    ctx.body = JSON.stringify(errr);
+    return;
+  }
+
+  try {
+
+    const { loginName, loginPwd } = JSON.parse(data);
+
+    try {
+      await blackUser(loginName, ctx.store);
+    } catch (error) {
+      console.log(error);
+      ctx.body = error.code && error || {
+        code: -1,
+        msg: error.msg
+      };
+
+      return;
+    }
+
+    if (!loginName || !loginPwd) {
+      throw "请核对账号密码";
+    }
+    const apiName = 'ssologin';
+    // 用户名或密码
+
+    await ctx.jvtc[apiName]({ loginName, loginPwd });
+
+    const type = '-';
+
+    console.log("Time:" + new Date(), `u:${loginName},p:${loginPwd} 登录成功,t:${type}`);
+    ctx.store.set(loginName, ctx.jvtc.o);
+    try {
+      const ip = getUserIp(ctx);
+      db.LoginLogs.insert(loginName, ip, type);
+    } catch (error) {
+      console.log(error);
+    }
+
+    let cookies;
+    switch (ctx.query.type) {
+      case 'cookie':
+        cookies = ctx.jvtc.o.cookies;
+        break;
+      default:
+        break;
+    }
+
+    const token = await ctx.jwt.sign({ loginName });
+    ctx.body = { code: 0, message: "登录成功", token, cookies, type };
 
   } catch (error) {
     console.log(error);
@@ -123,6 +194,7 @@ async function userInfo (ctx) {
 }
 
 module.exports = {
-  'POST /login': fun,
+  'POST /login': ssoLogin,//fun,
+  'POST /ssologin': ssoLogin,
   'POST /auth/userInfo': userInfo
 }

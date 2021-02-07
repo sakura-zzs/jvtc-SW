@@ -6,3 +6,6 @@ bmob.config.js
 /www
 *.log
 db.config.js
+
+tests/t.js
+tests/ttt
