@@ -2,7 +2,7 @@
  * @Author: bucai
  * @Date: 2021-01-08 13:41:28
  * @LastEditors: bucai
- * @LastEditTime: 2021-01-11 14:48:56
+ * @LastEditTime: 2021-02-07 22:50:15
  * @Description: 
  */
 const AipOcrClient = require("baidu-aip-sdk").ocr;
@@ -61,19 +61,23 @@ class OcrClient {
     }
     const client = this.getClient();
     return client.generalBasic(url, { language_type: 'ENG' }).then(function (result) {
-      if (result.error_code > 0) {
-        throw new Error(result.error_msg)
-      }
-
-      const word_result = result.words_result[0];
-      if (word_result && word_result.words) {
-        const words = (word_result.words || '').replace(/[^A-z]/g, '');
-        if (words.length >= 4) {
-          return words;
+      try {
+        if (result.error_code > 0) {
+          return Promise.reject(new Error(result.error_msg));
         }
+
+        const word_result = result.words_result[0];
+        if (word_result && word_result.words) {
+          let words = (word_result.words || '').replace(/[^A-z]/g, '');
+          if (words.length >= 4) {
+            return words;
+          }
+        }
+        console.log('ocr', JSON.stringify(result));
+        return Promise.reject({ message: "识别失败" });
+      } catch (error) {
+        return Promise.reject(error);
       }
-      console.log('ocr', JSON.stringify(result));
-      throw new Error("识别失败");
     })
   }
 

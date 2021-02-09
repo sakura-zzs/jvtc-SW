@@ -2,10 +2,10 @@ const superagent = require('superagent');
 const cookie = require('cookie');
 const cheerio = require('cheerio');
 const configs = require('../ocr.config');
-const OcrClient = require('./OcrClient');
+const AiCode = require('./AiCode');
 const ClientPool = require('./ClientPool');
 
-const ocr = new OcrClient({ configs: configs })
+const ocr = new AiCode({ debug: process.env.APP_ENV == 'development' })
 
 
 const getCookies = (cookies) => {
@@ -54,8 +54,8 @@ const getImgCode = (cookies) => {
         if (!res) {
           return reject(err);
         }
-        ocr.generalBasic2(res.body).then(res => {
-          resolve(res);
+        ocr.sso(Buffer.from(res.body)).then(value => {
+          resolve(value);
         }).catch(_err => {
           reject(_err);
         });
@@ -182,6 +182,8 @@ module.exports = {
     const _cookies = [`JSESSIONID=${cookies['JSESSIONID']}`, `sessoinMapKey=${cookies['sessoinMapKey']}`]
 
     let errCount = 2;
+    let error;
+    let success = false;
     do {
       errCount--;
       try {
@@ -189,13 +191,19 @@ module.exports = {
 
         _cookies.push('CASTGC=' + newCookie['CASTGC'])
         _cookies.push('CASPRIVACY=' + newCookie['CASPRIVACY'])
+        success = true;
         break;
       } catch (error) {
+        error = error;
         if (!/验证码/.test(error.message)) {
           throw error;
         }
       }
     } while (errCount >= 0);
+
+    if (!success) {
+      throw error
+    }
 
     return _cookies.join(';');
   },

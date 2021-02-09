@@ -5,7 +5,7 @@ services:
     build: .
     image: "ccr.ccs.tencentyun.com/jiu-docker/jvtc-sw"
     restart: always
-    ports: 
+    ports:
       - "3214:3214"
     networks:
       - bucai-network

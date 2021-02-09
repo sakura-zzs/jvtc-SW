@@ -2,7 +2,7 @@ FROM node:12.18.2
 
 LABEL maintainer="bucai<1450941858@qq.com>"
 
-ENV HOST 0.0.0.0 
+ENV HOST 0.0.0.0
 
 ADD . /app/
 

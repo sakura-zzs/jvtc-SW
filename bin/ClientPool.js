@@ -2,7 +2,7 @@
  * @Author: bucai
  * @Date: 2021-01-09 11:40:24
  * @LastEditors: bucai
- * @LastEditTime: 2021-01-21 21:57:46
+ * @LastEditTime: 2021-02-07 22:15:36
  * @Description: 
  */
 const { jvtc_get } = require('../utils/jvtc_request');
@@ -28,7 +28,7 @@ class ClientPool {
   }
   // 存活检测 定时器，半个小时如果都没活跃就干掉
   async _live () {
-    console.log(`[${colors.green(this.name)}] 守护‘进程’: ${colors.green('已更新')}`);
+    // console.log(`[${colors.green(this.name)}] 守护‘进程’: ${colors.green('已更新')}`);
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
 
@@ -39,7 +39,6 @@ class ClientPool {
       // 再自己干自己一次保持活跃检测
       this._live();
     }, 30 * 60 * 1000);
-
 
   }
 
