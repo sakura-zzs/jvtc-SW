@@ -194,6 +194,8 @@ module.exports = {
         success = true;
         break;
       } catch (error) {
+        console.log('sso init error',error);
+
         error = error;
         if (!/验证码/.test(error.message)) {
           throw error;

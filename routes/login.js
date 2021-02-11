@@ -157,12 +157,11 @@ async function ssoLogin (ctx, next) {
     ctx.body = { code: 0, message: "登录成功", token, cookies, type };
 
   } catch (error) {
-    console.log(error);
+    console.log('sso login error',error);
     ctx.body = { code: -1, message: error.message || error };
   }
 
   await next();
-
 }
 
 /**

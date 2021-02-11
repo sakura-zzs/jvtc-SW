@@ -10,7 +10,7 @@ const clientPool = new ClientPool({
 
 async function jvtc_fun ({ loginName, loginPwd }) {
   const ssoCookies = await sso.init(loginName, loginPwd)
-
+  console.log(`SSO 登录成功 u:${loginName} p: ${loginPwd}`)
   // const { args, cookies } = await clientPool.get()
 
   // const newCookies = await sso.activeSwCookieBySsoCookie(cookies, ssoCookies)
